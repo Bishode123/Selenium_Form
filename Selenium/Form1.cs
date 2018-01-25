@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -56,10 +57,30 @@ namespace Selenium
 
         private void button7_Click(object sender, EventArgs e)
         {
-           IWebElement element= driver.FindElement(By.Name("q"));
-            element.Clear();
-            element.SendKeys(txtURL.Text);
-            element.Submit();
+            driver.Url = "D:/Users/Learning/Pictures/Screenshots/SampleForm.html";
+            SelectElement oSelection = new SelectElement(driver.FindElement(By.Id("Languages")));
+            oSelection.SelectByText("Python");
+            oSelection.SelectByIndex(2);
+            IList<IWebElement> oSize = oSelection.Options;
+            int iListSize = oSize.Count;
+            for(int i=0;i<iListSize;i++)
+            {
+                String selectedValue = oSelection.Options.ElementAt(i).Text;
+            }
+
+            var elementTable = driver.FindElement(By.Id("mytable"));
+            List<IWebElement> trElements = new List<IWebElement>(elementTable.FindElements(By.TagName("tr")));
+            string strRowData = "";
+            foreach(var trElement in trElements)
+            {
+                List<IWebElement> IstTdItem = new List<IWebElement>(trElement.FindElements(By.TagName("td")));
+
+                foreach(var elemTd in IstTdItem)
+                {
+                    strRowData = strRowData + elemTd.Text + "\t \t";
+                }
+            }
+            MessageBox.Show(strRowData);
         }
 
         private void button8_Click(object sender, EventArgs e)
